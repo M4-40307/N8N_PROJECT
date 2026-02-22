@@ -1,0 +1,329 @@
+{
+  "name": "Birthday_greeting_generator",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Birthday Greeting Generator Machine ",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "From"
+            },
+            {
+              "fieldLabel": "To"
+            },
+            {
+              "fieldLabel": "Gender",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Male"
+                  },
+                  {
+                    "option": "Female"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Tell us more about this person, things he likes:"
+            },
+            {
+              "fieldLabel": "E-Mail",
+              "fieldType": "email"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e23f3959-a586-49d5-b07a-15c055ae5782",
+      "name": "On form submission",
+      "webhookId": "8ee9834f-c688-4aa4-b01a-5a4f938bc918"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=אתה כותב ברכות יום הולדת מקוריות בעברית.\n\nהנתונים שנשלחו מהטופס:\n\nשם שולח הברכה: {{ $json.From }}\nשם מקבל הברכה: {{ $json.To }}\nמין מקבל הברכה: {{ $json.Gender }}\nנושאים ותחומי עניין אהובים: {{ $json['Tell us more about this person, things he likes:'] }}\n\nהמשימה שלך:\nלכתוב ברכת יום הולדת אישית, חמה ומרגשת בהתבסס אך ורק על הנתונים שנשלחו.\n\nחוקים חשובים:\n\n1. אם המגדר הוא \"זכר\" – כתוב בלשון זכר.\n2. אם המגדר הוא \"נקבה\" – כתוב בלשון נקבה.\n3. השתמש בנושאים האהובים כדי לשלב תוכן אישי בברכה.\n4. אל תמציא מידע שלא קיים בטופס.\n5. אורך הברכה: בין 6 ל-10 שורות.\n6. סגנון: שמח, חם, אישי ומעודד.\n7. השורה האחרונה חייבת להיות:\n   \"מזל טוב! 🎉\"\n\nהברכה צריכה להרגיש אישית ולא גנרית.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        192,
+        0
+      ],
+      "id": "f533ea4f-57fc-48d8-9f41-ac4264f75fe5",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "mode": "combineBySql",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        512,
+        0
+      ],
+      "id": "269c5c23-e07e-4210-880e-2b00a1076bd8",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appa271xwH5Avz2Ju",
+          "mode": "list",
+          "cachedResultName": "Birthday_greeting_requests",
+          "cachedResultUrl": "https://airtable.com/appa271xwH5Avz2Ju"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblv6oQpXRdN0rDzD",
+          "mode": "list",
+          "cachedResultName": "BD_Greeting_Request",
+          "cachedResultUrl": "https://airtable.com/appa271xwH5Avz2Ju/tblv6oQpXRdN0rDzD"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "From": "={{ $json.From }}",
+            "To": "={{ $json.To }}",
+            "Gender": "={{ $json.Gender }}",
+            "Favorite fields": "={{ $json['Tell us more about this person, things he likes:'] }}",
+            "To: Email@****.com": "={{ $json['E-Mail'] }}",
+            "Generated Greeting": "={{ $json.text }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "From",
+              "displayName": "From",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "To",
+              "displayName": "To",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Gender",
+              "displayName": "Gender",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Male",
+                  "value": "Male"
+                },
+                {
+                  "name": "Female",
+                  "value": "Female"
+                },
+                {
+                  "name": "",
+                  "value": ""
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Favorite fields",
+              "displayName": "Favorite fields",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Generated Greeting",
+              "displayName": "Generated Greeting",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "To: Email@****.com",
+              "displayName": "To: Email@****.com",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        0
+      ],
+      "id": "e7184e00-f2e0-41d7-bd32-49a7290c1d04",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "FvvROvEjMfg6aMIv",
+          "name": "Airtable Personal Access Token account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "=🎂 מזל טוב {{ $json.fields.From }}! מחכה לך הפתעה מיוחדת",
+        "textContent": "=שלום {{ $json.fields.To }},\n\nנשלחה אליך ברכת יום הולדת מיוחדת מאת {{ $json.fields.From }} 💌\n\nהנה הברכה שנכתבה במיוחד עבורך:\n\n----------------------------------------\n\n{{ $json.fields['Generated Greeting'] }}\n\n----------------------------------------\n\nמאחלים לך יום מלא שמחה, חיוכים והפתעות נעימות!\n\nבברכה,\nמערכת יצירת הברכות 🎉",
+        "sender": "fadibox16@gmail.com",
+        "receipients": "={{ $json.fields['To: Email@****.com'] }}",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.sendInBlue",
+      "typeVersion": 1,
+      "position": [
+        928,
+        0
+      ],
+      "id": "bcfad09d-64e4-410a-a492-923e8ba62b4c",
+      "name": "Send a transactional email",
+      "credentials": {
+        "sendInBlueApi": {
+          "id": "TmtZbuEhM0SLIxQq",
+          "name": "Brevo account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        160,
+        272
+      ],
+      "id": "9abc3684-ffe1-496c-91ca-1bd651c5eff4",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "18PArwod6m3rxGxm",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Send a transactional email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "4d357f65-ab0d-4526-900c-186549c1dd11",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7a46f5d7290f2830abb447dca05eea4bf2e78c3606a6864a4407325bfd4636cf"
+  },
+  "id": "EVnl6ZDdKU9LmvQW",
+  "tags": []
+}

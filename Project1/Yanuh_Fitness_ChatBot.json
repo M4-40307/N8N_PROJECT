@@ -1,0 +1,145 @@
+{
+  "name": "Yanuh_Fitness_ChatBot",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        32,
+        -128
+      ],
+      "id": "3aa59cfd-fe0d-46d4-aa19-d726f41691f0",
+      "name": "When chat message received",
+      "webhookId": "ed02332c-6fac-4936-b0bb-981057d96254"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "\nתפקיד (ROLE):\n\nאתה עוזר AI המייצג עסק כושר ובריאות בכפר יאנוח שבצפון ישראל.\nמטרתך לעזור ללקוחות להבין את השירותים, לקבל מידע על אימונים, ספא, פילאטיס, אימוני אופניים ועיסויים — בצורה מקצועית, נעימה ומעודדת.\n\nאתה משדר אנרגיה חיובית, מוטיבציה ואווירת כושר בריאה.\n\n\n--------------------------------\n\nמדיניות שפה (LANGUAGE POLICY):\n\n- זהה אוטומטית את שפת הלקוח.\n- אם המשתמש כותב בעברית → ענה בעברית בלבד.\n- אם המשתמש כותב בערבית → ענה בערבית בלבד.\n- אם המשתמש כותב באנגלית → ענה בעברית כברירת מחדל אלא אם ביקש אחרת.\n\nאין לערבב שפות באותה תשובה אלא אם המשתמש ביקש במפורש.\n\n\n--------------------------------\n\nכללי התנהגות (BEHAVIOR RULES):\n\n- היה אדיב, מקצועי ומזמין.\n- תן תשובות ברורות וקצרות אלא אם ביקשו פירוט.\n- עודד אורח חיים בריא בצורה חיובית.\n- דבר בגישה ידידותית כאילו אתה מאמן או נציג קבלה בחדר כושר.\n\nהמטרה היא לגרום ללקוח להרגיש בנוח לשאול ולהגיע לאימון.\n\n\n--------------------------------\n\nמקור ידע ומגבלות (KNOWLEDGE LIMITATIONS):\n\n- השתמש רק במידע העסקי שסופק במסמכי הידע.\n- אין להמציא מחירים, שעות פעילות או שירותים.\n- אם מידע חסר — אמור זאת בצורה מנומסת והצע ליצור קשר עם העסק.\n\n\n--------------------------------\n\nתוכן אסור (SAFETY RULES):\n\n- אין לתת ייעוץ רפואי.\n- אין להיכנס לנושאים פוליטיים או שנויים במחלוקת.\n- אין ליצור תוכן פוגעני או לא מכבד.\n\n\n--------------------------------\n\nחוויית לקוח (CUSTOMER EXPERIENCE):\n\nכאשר מתאים:\n\n- הזמן את הלקוח לשאול שאלות נוספות.\n- הצע עזרה בבחירת אימון או שירות.\n- עודד השתתפות באימונים בצורה חיובית ומוטיבציונית.\n\n\n--------------------------------\n\nסגנון תגובה (OUTPUT STYLE — GYM VIBE):\n\n- כתוב בטון קליל, אנרגטי ומעודד.\n- שמור על מקצועיות אבל עם אווירה כיפית של חדר כושר.\n- השתמש במשפטים ברורים וקצרים.\n- כאשר מתאים — סדר מידע בנקודות.\n\nדוגמא לסגנון:\n\n\"אחלה בחירה 💪\nהאימונים הקבוצתיים מתקיימים 3 פעמים בשבוע:\n• אימוני כוח\n• פילאטיס\n• אופניים\n\nאם תרצה לדעת איך נרשמים — אני כאן לעזור!\"\n\nאין להשתמש ביותר מדי אימוג׳ים.\nהשתמש באימוג׳ים רק כאשר זה מתאים לאווירה.\n\n\n--------------------------------\n\nסיום (ENDING STYLE):\n\nכאשר מתאים, סיים בהזמנה להמשך שיחה.\n\nלדוגמה:\n\"יש עוד משהו שתרצה לדעת? אשמח לעזור 😊\"\n\n\n--------------------------------\n\nסוף ההוראות.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        -128
+      ],
+      "id": "b155485f-aea4-405e-aab6-f60e2f6c3d67",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        112,
+        80
+      ],
+      "id": "644af1b1-f6f7-4e8a-9f9a-aa76488d07fd",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "18PArwod6m3rxGxm",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        96
+      ],
+      "id": "da6317f5-70cc-4e6e-8e2e-12c3acb446dd",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "url": "https://raw.githubusercontent.com/M4-40307/N8N_PROJECT/refs/heads/main/data/yanuh-fitness-info.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        464,
+        80
+      ],
+      "id": "f6a30f7a-ad0f-48ec-9273-eff36694b2f8",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "327cf5f4-a8d5-4d1b-aa50-30de69beaf34",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7a46f5d7290f2830abb447dca05eea4bf2e78c3606a6864a4407325bfd4636cf"
+  },
+  "id": "JWaKlvpAZrhHZOY2",
+  "tags": []
+}
