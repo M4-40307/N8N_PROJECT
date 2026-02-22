@@ -66,7 +66,7 @@
     },
     {
       "parameters": {
-        "url": "https://raw.githubusercontent.com/M4-40307/N8N_PROJECT/refs/heads/main/data/yanuh-fitness-info.txt",
+        "url": "https://raw.githubusercontent.com/M4-40307/N8N_PROJECT/refs/heads/main/Project1/data/yanuh-fitness-info.txt",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequestTool",
@@ -135,7 +135,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "327cf5f4-a8d5-4d1b-aa50-30de69beaf34",
+  "versionId": "238f6fac-a8f6-4da4-bd1b-4e3adffd5550",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7a46f5d7290f2830abb447dca05eea4bf2e78c3606a6864a4407325bfd4636cf"
